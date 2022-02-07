@@ -1,7 +1,7 @@
 body{
     font-family: Arial, sans-serif;
     font-size: 12px;
-    background-color: rgba(0, 0, 0, 0.72);
+    background-color: rgb(0, 0, 0);
     text-align: center;
 }
 a{
@@ -31,7 +31,7 @@ canvas{
 
 #vie {
     color: #ffffff;
-    font-size: 5vw;
+    font-size: 2vw;
     display: flex;
     justify-content: left;
     position: absolute;
@@ -44,12 +44,14 @@ canvas{
 }
 
 #vie > * {
+    vertical-align: middle ;
+    display: inline-block;
     margin: 1vw;
 }
 
 #scores{
     color: #ffffff;
-    font-size : 5vw;
+    font-size : 2vw;
     display: flex;
     justify-content: left;
     position: absolute;
@@ -62,5 +64,7 @@ canvas{
 }
 
 #scores >* {
+    vertical-align: middle ;
+    display: inline-block;
     margin: 1vw;
 }

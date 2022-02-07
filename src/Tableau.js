@@ -15,14 +15,14 @@ create () {
     this.hauteurlargeur=800
 
     //affichage ball
-    this.balle = this.physics.add.sprite(this.hauteurlargeur/2,this.hauteurlargeur/2,'balle').setOrigin(0,0);
+    this.balle = this.physics.add.sprite(this.hauteurlargeur/2,710,'balle').setOrigin(0,0);
     this.balle.setDisplaySize(20,20);
     //actions de rebondisement/speed
     this.balle.body.setBounce(1.5,1.5);
     this.balle.setVelocityX(Phaser.Math.Between(0,0));
     this.balle.setVelocityY(Phaser.Math.Between(200,-200));
-    this.balle.body.setMaxVelocityX(500,500);
-    this.balle.body.setMaxVelocityY(100,100);
+    this.balle.body.setMaxVelocityX(100,100);
+    this.balle.body.setMaxVelocityY(500,500);
 
     //joueur(physique, taille)
     this.joueur = this.physics.add.sprite(300,this.hauteurlargeur-20,'carre').setOrigin(0,0);
@@ -68,33 +68,49 @@ create () {
         me.rebond(me.joueur)
     });
 
+    this.physics.add.collider(this.balle,this.brique);
+
     this.initKeyboard()
+    this.balleAucentre();
+
     this.padSpeed = 0
 }
 
-    rebond(player){
+//TODO variable en fonction de ou touche la balle
+    rebond(players){
 
-        let me=this;
+        let hauteurPlayers = players.displayHeight;
 
-        console.log(player.x)
-        console.log(me.balle.x)
-        console.log((me.balle.x)-(player.x))
+        let positionRelativePlayers =(this.balle.x-players.y);
 
-        let hauteurPlayer = player.displayHeight;
+        positionRelativePlayers = (positionRelativePlayers/hauteurPlayers);
 
-        let positionRelativePlayer =(this.balle.x-player.x);
+        positionRelativePlayers = (positionRelativePlayers*2-1);
+        console.log(positionRelativePlayers);
 
-        positionRelativePlayer = (positionRelativePlayer/hauteurPlayer);
-
-        positionRelativePlayer = (positionRelativePlayer*2-1);
-        console.log(positionRelativePlayer);
-
-        this.balle.setVelocityY( this.balle.body.velocity.x + positionRelativePlayer * hauteurPlayer)
+        this.balle.setVelocityY( this.balle.body.velocity.y + positionRelativePlayers * hauteurPlayers)
 
     }
 
+    //fonction reset de la balle
+    balleAucentre() {
+        this.balle.x = this.hauteurlargeur/2
+        this.balle.y = 650
+        this.speedY = 0
+
+        this.balle.setVelocityY(Math.random() > 0.5 ? -300 : 300)
+        this.balle.setVelocityX(0)
+    }
+
+    loose(joueur){
+        joueur.vie--;
+        this.balleAucentre()
+    }
 
 update () {
+    if (this.balle.y > this.hauteurlargeur){
+        this.loose(this.joueur);
+    }
     //joueur GAUCHE (verif collisions mur haut/bas)
     if (this.joueur.x < 20) {
         this.padSpeed = 0
