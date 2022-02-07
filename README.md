@@ -1,6 +1,4 @@
 # casse-brique
-
-# casse-brique
 Devoir en classe du 07/02/2022
 
 ## Objectif:
